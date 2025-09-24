@@ -921,141 +921,187 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Set canvas size
+            // Set canvas size (dynamic height based on content)
             canvas.width = 800;
-            canvas.height = 600 + (emailData.solutions.length * 400); // Dynamic height based on solutions
+            canvas.height = 800 + (emailData.solutions.length * 450);
             
-            // Set background
+            // Set white background
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Set text properties
-            ctx.fillStyle = '#000000';
-            ctx.font = 'bold 24px Lato, sans-serif';
-            
             let yPosition = 40;
             
-            // Title
-            ctx.fillText('TechnologyMatch.com Solution Submission', 50, yPosition);
-            yPosition += 50;
+            // Load and draw logo
+            const logoImg = new Image();
+            logoImg.crossOrigin = 'anonymous';
+            logoImg.onload = function() {
+                // Draw logo centered at top
+                const logoWidth = 500;
+                const logoHeight = (logoImg.height / logoImg.width) * logoWidth;
+                const logoX = (canvas.width - logoWidth) / 2;
+                
+                ctx.drawImage(logoImg, logoX, yPosition, logoWidth, logoHeight);
+                yPosition += logoHeight + 40;
+                
+                drawContent();
+            };
             
-            // Subtitle line
-            ctx.strokeStyle = '#fdd265';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(50, yPosition);
-            ctx.lineTo(750, yPosition);
-            ctx.stroke();
-            yPosition += 40;
-            
-            // Header info
-            ctx.font = '16px Lato, sans-serif';
-            ctx.fillText(`Submission Time: ${new Date().toLocaleString()}`, 50, yPosition);
-            yPosition += 25;
-            ctx.fillText(`Total Solutions: ${emailData.totalSolutions}`, 50, yPosition);
-            yPosition += 50;
-            
-            // Solutions
-            emailData.solutions.forEach((solution, index) => {
-                // Solution header
+            logoImg.onerror = function() {
+                // If logo fails to load, draw TechnologyMatch.com text header
                 ctx.fillStyle = '#000000';
-                ctx.fillRect(50, yPosition - 20, 700, 30);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 18px Lato, sans-serif';
-                ctx.fillText(`SOLUTION ${index + 1}`, 60, yPosition);
+                ctx.font = 'bold 32px Arial, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('TechnologyMatch.com', canvas.width / 2, yPosition);
                 yPosition += 40;
+                ctx.font = 'bold 24px Arial, sans-serif';
+                ctx.fillText('Solution Submission', canvas.width / 2, yPosition);
+                yPosition += 50;
+                ctx.textAlign = 'left';
                 
+                drawContent();
+            };
+            
+            function drawContent() {
+                // Add decorative line under logo
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(100, yPosition);
+                ctx.lineTo(700, yPosition);
+                ctx.stroke();
+                yPosition += 50;
+                
+                // Header info with better styling
                 ctx.fillStyle = '#000000';
-                ctx.font = '14px Lato, sans-serif';
-                
-                // Solution details
-                ctx.fillText(`Name: ${solution.name}`, 60, yPosition);
-                yPosition += 20;
-                ctx.fillText(`URL: ${solution.url}`, 60, yPosition);
+                ctx.font = 'bold 18px Arial, sans-serif';
+                ctx.fillText(`Submission Time: ${new Date().toLocaleString()}`, 100, yPosition);
                 yPosition += 30;
+                ctx.fillText(`Total Solutions: ${emailData.totalSolutions}`, 100, yPosition);
+                yPosition += 60;
                 
-                // Deployment
-                ctx.font = 'bold 14px Lato, sans-serif';
-                ctx.fillText('Deployment Options:', 60, yPosition);
-                yPosition += 18;
-                ctx.font = '12px Lato, sans-serif';
-                solution.deployment.forEach(option => {
-                    ctx.fillText(`• ${option}`, 80, yPosition);
-                    yPosition += 16;
-                });
-                yPosition += 10;
-                
-                // Support
-                ctx.font = 'bold 14px Lato, sans-serif';
-                ctx.fillText('Support Options:', 60, yPosition);
-                yPosition += 18;
-                ctx.font = '12px Lato, sans-serif';
-                solution.support.forEach(option => {
-                    ctx.fillText(`• ${option}`, 80, yPosition);
-                    yPosition += 16;
-                });
-                yPosition += 10;
-                
-                // Training
-                ctx.font = 'bold 14px Lato, sans-serif';
-                ctx.fillText('Training Options:', 60, yPosition);
-                yPosition += 18;
-                ctx.font = '12px Lato, sans-serif';
-                solution.training.forEach(option => {
-                    ctx.fillText(`• ${option}`, 80, yPosition);
-                    yPosition += 16;
-                });
-                yPosition += 10;
-                
-                // Pricing
-                ctx.font = 'bold 14px Lato, sans-serif';
-                ctx.fillText('Pricing Models:', 60, yPosition);
-                yPosition += 18;
-                ctx.font = '12px Lato, sans-serif';
-                solution.pricing.forEach(option => {
-                    ctx.fillText(`• ${option}`, 80, yPosition);
-                    yPosition += 16;
-                });
-                yPosition += 10;
-                
-                // Optional features
-                if (solution.optional && solution.optional.length > 0) {
-                    ctx.font = 'bold 14px Lato, sans-serif';
-                    ctx.fillText('Optional Features:', 60, yPosition);
-                    yPosition += 18;
-                    ctx.font = '12px Lato, sans-serif';
-                    solution.optional.forEach(option => {
-                        ctx.fillText(`• ${option}`, 80, yPosition);
-                        yPosition += 16;
+                // Process each solution
+                emailData.solutions.forEach((solution, index) => {
+                    // Solution header with gradient-style background
+                    const headerHeight = 40;
+                    
+                    // Create gradient effect with multiple rectangles
+                    ctx.fillStyle = '#000000';
+                    ctx.fillRect(60, yPosition - 10, 680, headerHeight);
+                    
+                    // Add subtle inner shadow effect
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                    ctx.fillRect(60, yPosition - 10, 680, 5);
+                    
+                    // Solution number and title
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 22px Arial, sans-serif';
+                    ctx.fillText(`SOLUTION ${index + 1}`, 80, yPosition + 15);
+                    yPosition += 60;
+                    
+                    // Solution details with better formatting
+                    ctx.fillStyle = '#000000';
+                    
+                    // Name and URL in a box
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.fillRect(80, yPosition - 5, 640, 60);
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(80, yPosition - 5, 640, 60);
+                    
+                    ctx.fillStyle = '#000000';
+                    ctx.font = 'bold 16px Arial, sans-serif';
+                    ctx.fillText(`Name: ${solution.name}`, 100, yPosition + 20);
+                    ctx.font = '14px Arial, sans-serif';
+                    ctx.fillText(`URL: ${solution.url}`, 100, yPosition + 40);
+                    yPosition += 80;
+                    
+                    // Create sections for each category
+                    const categories = [
+                        { title: 'Deployment Options', data: solution.deployment },
+                        { title: 'Support Options', data: solution.support },
+                        { title: 'Training Options', data: solution.training },
+                        { title: 'Pricing Models', data: solution.pricing }
+                    ];
+                    
+                    if (solution.optional && solution.optional.length > 0) {
+                        categories.push({ title: 'Optional Features', data: solution.optional });
+                    }
+                    
+                    categories.forEach(category => {
+                        if (category.data.length > 0) {
+                            // Category header with background
+                            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                            ctx.fillRect(80, yPosition - 8, 300, 25);
+                            
+                            ctx.fillStyle = '#000000';
+                            ctx.font = 'bold 16px Arial, sans-serif';
+                            ctx.fillText(category.title, 90, yPosition + 8);
+                            yPosition += 35;
+                            
+                            // Category items
+                            ctx.font = '14px Arial, sans-serif';
+                            category.data.forEach(item => {
+                                // Add bullet point styling
+                                ctx.beginPath();
+                                ctx.arc(110, yPosition - 5, 3, 0, 2 * Math.PI);
+                                ctx.fillStyle = '#000000';
+                                ctx.fill();
+                                
+                                ctx.fillText(item, 125, yPosition);
+                                yPosition += 20;
+                            });
+                            yPosition += 15;
+                        }
                     });
-                }
+                    
+                    // Add separator between solutions
+                    if (index < emailData.solutions.length - 1) {
+                        ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([10, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(100, yPosition);
+                        ctx.lineTo(700, yPosition);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        yPosition += 30;
+                    }
+                });
                 
-                yPosition += 40;
-            });
+                // Footer
+                yPosition += 30;
+                ctx.fillStyle = '#000000';
+                ctx.font = 'italic 14px Arial, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Please email this file to: sonoma@technologymatch.com', canvas.width / 2, yPosition);
+                
+                // Convert canvas to PNG and download
+                canvas.toBlob(function(blob) {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                    const filename = `TechnologyMatch-Solutions-${timestamp}.png`;
+                    
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    console.log('Solution data downloaded as PNG:', filename);
+                }, 'image/png');
+            }
             
-            // Convert canvas to PNG and download
-            canvas.toBlob(function(blob) {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                
-                // Generate filename with timestamp
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-                const companyName = emailData.solutions[0]?.companyName || 'Unknown';
-                const filename = `TechnologyMatch-Solutions-${companyName.replace(/[^a-zA-Z0-9]/g, '')}-${timestamp}.png`;
-                
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-                
-                console.log('Solution data downloaded as PNG:', filename);
-            }, 'image/png');
+            // Load the logo from GitHub
+            logoImg.src = 'https://raw.githubusercontent.com/sunnyanselmo/technologymatch-solution-builder/main/Capybara%20Back%20to%20School%20Quiz%20Google%20Forms%20Header%20in%20Beige%20and%20Brown%20Cute%20Style.png';
         }
         
         // Initialize
         window.scrollTo({top: 0, behavior: 'smooth'});
     </script>
+</body>
+</html>
 </body>
 </html>
