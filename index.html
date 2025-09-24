@@ -14,13 +14,9 @@
         
         body {
             font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #29A1F0 0%, #1E7F8D 100%);
+            background: #fdd265;
             min-height: 100vh;
             color: #333;
-        }
-        
-        body.setup-page {
-            background: #fdd265;
         }
         
         .container {
@@ -378,8 +374,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://i.postimg.cc/3xcKCNq4/Capybara-Back-to-School-Quiz-Google-Forms-Header-in-Beige-and-Brown-Cute-Style.png" alt="TechnologyMatch.com Logo" style="max-width: 500px; height: auto; margin-bottom: 10px;">
-            <p>Configure each solution for your marketplace presence</p>
+            <img src="https://raw.githubusercontent.com/sunnyanselmo/technologymatch-solution-builder/main/Capybara%20Back%20to%20School%20Quiz%20Google%20Forms%20Header%20in%20Beige%20and%20Brown%20Cute%20Style.png" alt="TechnologyMatch.com Logo" style="max-width: 500px; height: auto; margin-bottom: 10px;">
+            <p style="font-weight: 500;">Configure each solution for your marketplace presence</p>
         </div>
         
         <!-- Setup Screen -->
@@ -442,9 +438,6 @@
         function startBuilder() {
             const solutionCountInput = document.getElementById('solutionCount');
             totalSolutions = parseInt(solutionCountInput.value) || 3;
-            
-            // Remove setup page styling
-            document.body.classList.remove('setup-page');
             
             document.getElementById('setupScreen').classList.add('hidden');
             document.getElementById('progressContainer').classList.remove('hidden');
@@ -1063,9 +1056,6 @@
         
         // Initialize
         window.scrollTo({top: 0, behavior: 'smooth'});
-        
-        // Set initial setup page styling
-        document.body.classList.add('setup-page');
     </script>
 </body>
 </html>
