@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnologyMatch.com Solution Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #29A1F0 0%, #1E7F8D 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        body.setup-page {
+            background: #fdd265;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-family: 'Lato', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #000000;
+            text-shadow: none;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #000000;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+        
+        .solution-tabs {
+            display: flex;
+            gap: 5px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+        }
+        
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .solution-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .solution-number {
+            background: #000000;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .solution-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2C1952;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #000000;
+        }
+        
+        .required-note {
+            color: #C5273A;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-item {
+            position: relative;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            display: none;
+        }
+        
+        .checkbox-label {
+            display: block;
+            padding: 10px 8px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        
+        .checkbox-item input[type="checkbox"]:checked + .checkbox-label {
+            background: #000000;
+            color: white;
+            border-color: #000000;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-category {
+            margin-bottom: 25px;
+        }
+        
+        .pricing-category h4 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-btn {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .prev-btn:hover {
+            background: #7f8c8d;
+        }
+        
+        .next-btn {
+            background: #000000;
+            color: white;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .finish-btn {
+            background: linear-gradient(135deg, #EDB835, #D4A83A);
+            color: white;
+        }
+        
+        .finish-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(237, 184, 53, 0.3);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .setup-screen {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .setup-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .solution-count-input {
+            padding: 10px;
+            font-size: 1.2rem;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            width: 80px;
+            text-align: center;
+        }
+        
+        .start-btn {
+            background: #000000;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .completion-indicator {
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .success-screen {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-screen h2 {
+            color: #000000;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+        
+        .download-btn {
+            background: #000000;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TechnologyMatch.com Solution Builder</h1>
+            <p>Configure each solution for your marketplace presence</p>
+        </div>
+        
+        <!-- Setup Screen -->
+        <div class="card" id="setupScreen">
+            <div class="setup-screen">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">How many solutions do you want to add?</h2>
+                <div class="setup-controls">
+                    <label for="solutionCount" style="font-size: 1.1rem; color: #2c3e50;">Number of solutions:</label>
+                    <input type="number" id="solutionCount" class="solution-count-input" min="1" max="10" value="3">
+                </div>
+                <button type="button" class="start-btn" onclick="startBuilder()">Let's Build My Solutions!</button>
+            </div>
+        </div>
+        
+        <!-- Progress Container (hidden initially) -->
+        <div class="progress-container hidden" id="progressContainer">
+            <div class="progress-stats">
+                <span>Solution: <span id="currentSolution">1</span> of <span id="totalSolutions">3</span></span>
+                <span class="completion-indicator" id="completionText">Getting started...</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="solution-tabs" id="solutionTabs">
+                <!-- Tabs will be added dynamically -->
+            </div>
+        </div>
+        
+        <!-- Solution Pages (will be generated dynamically) -->
+        <div id="solutionPages">
+            <!-- Solution pages will be added here -->
+        </div>
+        
+        <!-- Success Screen -->
+        <div class="card hidden" id="successScreen">
+            <div class="success-screen">
+                <h2>All Solutions Complete!</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">Your solution pages will be live within 24 hours.</p>
+                <div style="margin-top: 30px; padding: 25px; background: #e8f6f3; border-radius: 15px;">
+                    <strong style="font-size: 1.1rem;">What happens next:</strong><br><br>
+                    Your solution pages get built within 7 days<br>
+                    Pages go live after your approval<br>
+                    Start receiving qualified leads!
+                </div>
+                <button type="button" id="downloadBtn" class="download-btn" onclick="downloadSolutionData()">
+                    Download My Solution Pages
+                </button>
+                <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">
+                    Email the downloaded file to sonoma@technologymatch.com
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSolutionIndex = 0;
+        let totalSolutions = 3;
+        let allSolutionsData = [];
+        
+        function startBuilder() {
+            const solutionCountInput = document.getElementById('solutionCount');
+            totalSolutions = parseInt(solutionCountInput.value) || 3;
+            
+            // Remove setup page styling
+            document.body.classList.remove('setup-page');
+            
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('progressContainer').classList.remove('hidden');
+            
+            generateSolutionPages();
+            showSolution(0);
+        }
+        
+        function generateSolutionPages() {
+            const solutionPages = document.getElementById('solutionPages');
+            const solutionTabs = document.getElementById('solutionTabs');
+            const totalSolutionsSpan = document.getElementById('totalSolutions');
+            
+            totalSolutionsSpan.textContent = totalSolutions;
+            
+            // Clear existing content
+            solutionPages.innerHTML = '';
+            solutionTabs.innerHTML = '';
+            
+            for (let i = 0; i < totalSolutions; i++) {
+                // Create tab
+                const tab = document.createElement('button');
+                tab.className = 'tab-btn';
+                tab.textContent = `Solution ${i + 1}`;
+                tab.onclick = () => showSolution(i);
+                solutionTabs.appendChild(tab);
+                
+                // Create solution page
+                const solutionPage = createSolutionPage(i + 1);
+                solutionPages.appendChild(solutionPage);
+                
+                // Initialize data
+                allSolutionsData[i] = {};
+            }
+        }
+        
+        function createSolutionPage(solutionNumber) {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'card solution-page hidden';
+            pageDiv.id = `solution${solutionNumber}`;
+            
+            pageDiv.innerHTML = `
+                <div class="solution-header">
+                    <div class="solution-number">${solutionNumber}</div>
+                    <div class="solution-title">Solution ${solutionNumber}</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="solution${solutionNumber}_name">Solution Name *</label>
+                    <input type="text" id="solution${solutionNumber}_name" name="solution${solutionNumber}_name" placeholder="e.g., CRM Integration Platform" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="solution${solutionNumber}_url">Solution URL *</label>
+                    <input type="url" id="solution${solutionNumber}_url" name="solution${solutionNumber}_url" placeholder="https://yoursite.com/solution" required>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Deployment Options</div>
+                    <div class="required-note">Must select at least one</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_cloudSaas" name="solution${solutionNumber}_deployment" value="Cloud, SaaS, Web-Based">
+                            <label for="solution${solutionNumber}_cloudSaas" class="checkbox-label">Cloud, SaaS, Web-Based</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_onPremises" name="solution${solutionNumber}_deployment" value="On-Premises">
+                            <label for="solution${solutionNumber}_onPremises" class="checkbox-label">On-Premises</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_mac" name="solution${solutionNumber}_deployment" value="Mac">
+                            <label for="solution${solutionNumber}_mac" class="checkbox-label">Mac</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_windows" name="solution${solutionNumber}_deployment" value="Windows">
+                            <label for="solution${solutionNumber}_windows" class="checkbox-label">Windows</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_linux" name="solution${solutionNumber}_deployment" value="Linux">
+                            <label for="solution${solutionNumber}_linux" class="checkbox-label">Linux</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_android" name="solution${solutionNumber}_deployment" value="Android">
+                            <label for="solution${solutionNumber}_android" class="checkbox-label">Android</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_iPhone" name="solution${solutionNumber}_deployment" value="iPhone">
+                            <label for="solution${solutionNumber}_iPhone" class="checkbox-label">iPhone</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_iPad" name="solution${solutionNumber}_deployment" value="iPad">
+                            <label for="solution${solutionNumber}_iPad" class="checkbox-label">iPad</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Support Options</div>
+                    <div class="required-note">Must select at least one</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_helpDesk" name="solution${solutionNumber}_support" value="Help Desk">
+                            <label for="solution${solutionNumber}_helpDesk" class="checkbox-label">Help Desk</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_knowledgeBase" name="solution${solutionNumber}_support" value="Knowledge Base">
+                            <label for="solution${solutionNumber}_knowledgeBase" class="checkbox-label">Knowledge Base</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_phoneSupport" name="solution${solutionNumber}_support" value="Phone Support">
+                            <label for="solution${solutionNumber}_phoneSupport" class="checkbox-label">Phone Support</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_emailSupport" name="solution${solutionNumber}_support" value="Email Support">
+                            <label for="solution${solutionNumber}_emailSupport" class="checkbox-label">Email Support</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_liveChat" name="solution${solutionNumber}_support" value="Live Chat">
+                            <label for="solution${solutionNumber}_liveChat" class="checkbox-label">Live Chat</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_communityForums" name="solution${solutionNumber}_support" value="Community Forums">
+                            <label for="solution${solutionNumber}_communityForums" class="checkbox-label">Community Forums</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Training Options</div>
+                    <div class="required-note">Must select at least one</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_inPerson" name="solution${solutionNumber}_training" value="In Person">
+                            <label for="solution${solutionNumber}_inPerson" class="checkbox-label">In Person</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_documentation" name="solution${solutionNumber}_training" value="Documentation">
+                            <label for="solution${solutionNumber}_documentation" class="checkbox-label">Documentation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_workshops" name="solution${solutionNumber}_training" value="Workshops">
+                            <label for="solution${solutionNumber}_workshops" class="checkbox-label">Workshops</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_communityForumsTraining" name="solution${solutionNumber}_training" value="Community Forums">
+                            <label for="solution${solutionNumber}_communityForumsTraining" class="checkbox-label">Community Forums</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_webinars" name="solution${solutionNumber}_training" value="Webinars">
+                            <label for="solution${solutionNumber}_webinars" class="checkbox-label">Webinars</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Pricing Models</div>
+                    <div class="required-note">Must select at least one</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_flatRateMonthly" name="solution${solutionNumber}_pricing" value="Flat Rate Subscription - Monthly">
+                            <label for="solution${solutionNumber}_flatRateMonthly" class="checkbox-label">Flat Rate Subscription Monthly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_flatRateQuarterly" name="solution${solutionNumber}_pricing" value="Flat Rate Subscription - Quarterly">
+                            <label for="solution${solutionNumber}_flatRateQuarterly" class="checkbox-label">Flat Rate Subscription Quarterly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_flatRateAnnually" name="solution${solutionNumber}_pricing" value="Flat Rate Subscription - Annually">
+                            <label for="solution${solutionNumber}_flatRateAnnually" class="checkbox-label">Flat Rate Subscription Annually</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_consumptionMonthly" name="solution${solutionNumber}_pricing" value="Consumption-Based Subscription - Monthly">
+                            <label for="solution${solutionNumber}_consumptionMonthly" class="checkbox-label">Consumption-Based Subscription Monthly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_consumptionQuarterly" name="solution${solutionNumber}_pricing" value="Consumption-Based Subscription - Quarterly">
+                            <label for="solution${solutionNumber}_consumptionQuarterly" class="checkbox-label">Consumption-Based Subscription Quarterly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_consumptionAnnually" name="solution${solutionNumber}_pricing" value="Consumption-Based Subscription - Annually">
+                            <label for="solution${solutionNumber}_consumptionAnnually" class="checkbox-label">Consumption-Based Subscription Annually</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_financingOptions" name="solution${solutionNumber}_pricing" value="Financing Options">
+                            <label for="solution${solutionNumber}_financingOptions" class="checkbox-label">Financing Options</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_lease" name="solution${solutionNumber}_pricing" value="Lease">
+                            <label for="solution${solutionNumber}_lease" class="checkbox-label">Lease</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_licensing" name="solution${solutionNumber}_pricing" value="Licensing">
+                            <label for="solution${solutionNumber}_licensing" class="checkbox-label">Licensing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_oneTimeCapEx" name="solution${solutionNumber}_pricing" value="One Time Service CapEx">
+                            <label for="solution${solutionNumber}_oneTimeCapEx" class="checkbox-label">One Time Service CapEx</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_statementBilling" name="solution${solutionNumber}_pricing" value="Statement Billing">
+                            <label for="solution${solutionNumber}_statementBilling" class="checkbox-label">Statement Billing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_statementOfWork" name="solution${solutionNumber}_pricing" value="Statement of Work">
+                            <label for="solution${solutionNumber}_statementOfWork" class="checkbox-label">Statement of Work</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Optional Pricing Features</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_freeTrialAvailability" name="solution${solutionNumber}_optional" value="Free Trial Availability">
+                            <label for="solution${solutionNumber}_freeTrialAvailability" class="checkbox-label">Free Trial Availability</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_freeVersionAvailability" name="solution${solutionNumber}_optional" value="Free Version Availability">
+                            <label for="solution${solutionNumber}_freeVersionAvailability" class="checkbox-label">Free Version Availability</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_customPricing" name="solution${solutionNumber}_optional" value="Custom Pricing">
+                            <label for="solution${solutionNumber}_customPricing" class="checkbox-label">Custom Pricing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_bulkDiscounts" name="solution${solutionNumber}_optional" value="Bulk Discounts">
+                            <label for="solution${solutionNumber}_bulkDiscounts" class="checkbox-label">Bulk Discounts</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_nonProfitPricing" name="solution${solutionNumber}_optional" value="Non-Profit Pricing">
+                            <label for="solution${solutionNumber}_nonProfitPricing" class="checkbox-label">Non-Profit Pricing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_trialExtensions" name="solution${solutionNumber}_optional" value="Trial Extensions">
+                            <label for="solution${solutionNumber}_trialExtensions" class="checkbox-label">Trial Extensions</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_educationPricing" name="solution${solutionNumber}_optional" value="Education Pricing">
+                            <label for="solution${solutionNumber}_educationPricing" class="checkbox-label">Education Pricing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="solution${solutionNumber}_addOnsExtensions" name="solution${solutionNumber}_optional" value="Add-Ons and Extensions">
+                            <label for="solution${solutionNumber}_addOnsExtensions" class="checkbox-label">Add-Ons and Extensions</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    ${solutionNumber > 1 ? '<button type="button" class="nav-btn prev-btn" onclick="previousSolution()">← Previous Solution</button>' : '<div></div>'}
+                    ${solutionNumber < totalSolutions ? '<button type="button" class="nav-btn next-btn" onclick="nextSolution()">Next Solution</button>' : '<button type="button" class="nav-btn finish-btn" onclick="finishAllSolutions()">Complete All Solutions!</button>'}
+                </div>
+            `;
+            
+            return pageDiv;
+        }
+        
+        function showSolution(index) {
+            // Hide all solution pages
+            const allPages = document.querySelectorAll('.solution-page');
+            allPages.forEach(page => page.classList.add('hidden'));
+            
+            // Show current solution page
+            const currentPage = document.getElementById(`solution${index + 1}`);
+            if (currentPage) {
+                currentPage.classList.remove('hidden');
+            }
+            
+            // Update tabs
+            const allTabs = document.querySelectorAll('.tab-btn');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            if (allTabs[index]) {
+                allTabs[index].classList.add('active');
+            }
+            
+            // Update progress
+            currentSolutionIndex = index;
+            updateProgress();
+        }
+        
+        function nextSolution() {
+            if (!validateCurrentSolution()) {
+                return;
+            }
+            
+            saveCurrentSolutionData();
+            
+            if (currentSolutionIndex < totalSolutions - 1) {
+                showSolution(currentSolutionIndex + 1);
+            }
+        }
+        
+        function previousSolution() {
+            saveCurrentSolutionData();
+            
+            if (currentSolutionIndex > 0) {
+                showSolution(currentSolutionIndex - 1);
+            }
+        }
+        
+        function validateCurrentSolution() {
+            const solutionNum = currentSolutionIndex + 1;
+            
+            // Check required fields
+            const name = document.getElementById(`solution${solutionNum}_name`).value.trim();
+            const url = document.getElementById(`solution${solutionNum}_url`).value.trim();
+            
+            if (!name || !url) {
+                alert('Please fill in the solution name and URL before continuing.');
+                return false;
+            }
+            
+            // Check deployment options
+            const deploymentChecked = document.querySelectorAll(`input[name="solution${solutionNum}_deployment"]:checked`);
+            if (deploymentChecked.length === 0) {
+                alert('Please select at least one deployment option before continuing.');
+                return false;
+            }
+            
+            // Check support options
+            const supportChecked = document.querySelectorAll(`input[name="solution${solutionNum}_support"]:checked`);
+            if (supportChecked.length === 0) {
+                alert('Please select at least one support option before continuing.');
+                return false;
+            }
+            
+            // Check training options
+            const trainingChecked = document.querySelectorAll(`input[name="solution${solutionNum}_training"]:checked`);
+            if (trainingChecked.length === 0) {
+                alert('Please select at least one training option before continuing.');
+                return false;
+            }
+            
+            // Check pricing options
+            const pricingChecked = document.querySelectorAll(`input[name="solution${solutionNum}_pricing"]:checked`);
+            if (pricingChecked.length === 0) {
+                alert('Please select at least one pricing model before continuing.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function saveCurrentSolutionData() {
+            const solutionNum = currentSolutionIndex + 1;
+            const solutionData = {
+                name: document.getElementById(`solution${solutionNum}_name`).value,
+                url: document.getElementById(`solution${solutionNum}_url`).value,
+                deployment: [],
+                support: [],
+                training: [],
+                pricing: [],
+                optional: []
+            };
+            
+            // Collect deployment options
+            document.querySelectorAll(`input[name="solution${solutionNum}_deployment"]:checked`).forEach(input => {
+                solutionData.deployment.push(input.value);
+            });
+            
+            // Collect support options
+            document.querySelectorAll(`input[name="solution${solutionNum}_support"]:checked`).forEach(input => {
+                solutionData.support.push(input.value);
+            });
+            
+            // Collect training options
+            document.querySelectorAll(`input[name="solution${solutionNum}_training"]:checked`).forEach(input => {
+                solutionData.training.push(input.value);
+            });
+            
+            // Collect pricing options
+            document.querySelectorAll(`input[name="solution${solutionNum}_pricing"]:checked`).forEach(input => {
+                solutionData.pricing.push(input.value);
+            });
+            
+            // Collect optional features
+            document.querySelectorAll(`input[name="solution${solutionNum}_optional"]:checked`).forEach(input => {
+                solutionData.optional.push(input.value);
+            });
+            
+            allSolutionsData[currentSolutionIndex] = solutionData;
+        }
+        
+        function updateProgress() {
+            const progress = ((currentSolutionIndex + 1) / totalSolutions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentSolution').textContent = currentSolutionIndex + 1;
+            
+            // Update completion text
+            const completionTexts = [
+                "Let's get started!",
+                "Great progress!",
+                "Halfway there!",
+                "Almost done!",
+                "Final stretch!",
+                "You're crushing it!",
+                "Nearly finished!",
+                "Last one!",
+                "Final solution!",
+                "Complete!"
+            ];
+            document.getElementById('completionText').textContent = completionTexts[Math.min(currentSolutionIndex, completionTexts.length - 1)];
+        }
+        
+        function finishAllSolutions() {
+            if (!validateCurrentSolution()) {
+                return;
+            }
+            
+            saveCurrentSolutionData();
+            
+            // Hide progress and solution pages
+            document.getElementById('progressContainer').classList.add('hidden');
+            document.querySelectorAll('.solution-page').forEach(page => page.classList.add('hidden'));
+            
+            // Show success screen
+            const successScreen = document.getElementById('successScreen');
+            if (successScreen) {
+                successScreen.classList.remove('hidden');
+                console.log('Success screen should be visible now');
+            } else {
+                console.error('Success screen element not found!');
+            }
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // Prepare data for email
+            const emailData = {
+                totalSolutions: totalSolutions,
+                solutions: allSolutionsData,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            
+            // Log all collected data in readable format
+            console.log('=== ALL SOLUTIONS DATA ===');
+            allSolutionsData.forEach((solution, index) => {
+                console.log(`Solution ${index + 1}:`, JSON.stringify(solution, null, 2));
+            });
+            
+            console.log('=== COMPLETE DATA PACKAGE ===');
+            console.log(JSON.stringify(emailData, null, 2));
+            
+            // Show email data on success screen instead of auto-sending
+            displayEmailData(emailData);
+        }
+        
+        function displayEmailData(data) {
+            // Create email content for display
+            let emailContent = `Send this data to sonoma@technologymatch.com:\n\n`;
+            emailContent += `Solutions: ${data.totalSolutions}\n`;
+            emailContent += `Timestamp: ${new Date().toLocaleString()}\n\n`;
+            
+            data.solutions.forEach((solution, index) => {
+                emailContent += `SOLUTION ${index + 1}:\n`;
+                emailContent += `Name: ${solution.name}\nURL: ${solution.url}\n`;
+                emailContent += `Deployment: ${solution.deployment.join(', ')}\n`;
+                emailContent += `Support: ${solution.support.join(', ')}\n`;
+                emailContent += `Training: ${solution.training.join(', ')}\n`;
+                emailContent += `Pricing: ${solution.pricing.join(', ')}\n`;
+                if (solution.optional.length > 0) {
+                    emailContent += `Optional: ${solution.optional.join(', ')}\n`;
+                }
+                emailContent += `\n`;
+            });
+            
+            console.log('EMAIL CONTENT TO SEND:');
+            console.log(emailContent);
+        }
+        
+        function downloadSolutionData() {
+            // Get the data that was prepared during completion
+            const emailData = {
+                totalSolutions: totalSolutions,
+                solutions: allSolutionsData,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            
+            // Create canvas for PNG generation
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 600 + (emailData.solutions.length * 400); // Dynamic height based on solutions
+            
+            // Set background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Set text properties
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 24px Lato, sans-serif';
+            
+            let yPosition = 40;
+            
+            // Title
+            ctx.fillText('TechnologyMatch.com Solution Submission', 50, yPosition);
+            yPosition += 50;
+            
+            // Subtitle line
+            ctx.strokeStyle = '#fdd265';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(50, yPosition);
+            ctx.lineTo(750, yPosition);
+            ctx.stroke();
+            yPosition += 40;
+            
+            // Header info
+            ctx.font = '16px Lato, sans-serif';
+            ctx.fillText(`Submission Time: ${new Date().toLocaleString()}`, 50, yPosition);
+            yPosition += 25;
+            ctx.fillText(`Total Solutions: ${emailData.totalSolutions}`, 50, yPosition);
+            yPosition += 50;
+            
+            // Solutions
+            emailData.solutions.forEach((solution, index) => {
+                // Solution header
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(50, yPosition - 20, 700, 30);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 18px Lato, sans-serif';
+                ctx.fillText(`SOLUTION ${index + 1}`, 60, yPosition);
+                yPosition += 40;
+                
+                ctx.fillStyle = '#000000';
+                ctx.font = '14px Lato, sans-serif';
+                
+                // Solution details
+                ctx.fillText(`Name: ${solution.name}`, 60, yPosition);
+                yPosition += 20;
+                ctx.fillText(`URL: ${solution.url}`, 60, yPosition);
+                yPosition += 30;
+                
+                // Deployment
+                ctx.font = 'bold 14px Lato, sans-serif';
+                ctx.fillText('Deployment Options:', 60, yPosition);
+                yPosition += 18;
+                ctx.font = '12px Lato, sans-serif';
+                solution.deployment.forEach(option => {
+                    ctx.fillText(`• ${option}`, 80, yPosition);
+                    yPosition += 16;
+                });
+                yPosition += 10;
+                
+                // Support
+                ctx.font = 'bold 14px Lato, sans-serif';
+                ctx.fillText('Support Options:', 60, yPosition);
+                yPosition += 18;
+                ctx.font = '12px Lato, sans-serif';
+                solution.support.forEach(option => {
+                    ctx.fillText(`• ${option}`, 80, yPosition);
+                    yPosition += 16;
+                });
+                yPosition += 10;
+                
+                // Training
+                ctx.font = 'bold 14px Lato, sans-serif';
+                ctx.fillText('Training Options:', 60, yPosition);
+                yPosition += 18;
+                ctx.font = '12px Lato, sans-serif';
+                solution.training.forEach(option => {
+                    ctx.fillText(`• ${option}`, 80, yPosition);
+                    yPosition += 16;
+                });
+                yPosition += 10;
+                
+                // Pricing
+                ctx.font = 'bold 14px Lato, sans-serif';
+                ctx.fillText('Pricing Models:', 60, yPosition);
+                yPosition += 18;
+                ctx.font = '12px Lato, sans-serif';
+                solution.pricing.forEach(option => {
+                    ctx.fillText(`• ${option}`, 80, yPosition);
+                    yPosition += 16;
+                });
+                yPosition += 10;
+                
+                // Optional features
+                if (solution.optional && solution.optional.length > 0) {
+                    ctx.font = 'bold 14px Lato, sans-serif';
+                    ctx.fillText('Optional Features:', 60, yPosition);
+                    yPosition += 18;
+                    ctx.font = '12px Lato, sans-serif';
+                    solution.optional.forEach(option => {
+                        ctx.fillText(`• ${option}`, 80, yPosition);
+                        yPosition += 16;
+                    });
+                }
+                
+                yPosition += 40;
+            });
+            
+            // Convert canvas to PNG and download
+            canvas.toBlob(function(blob) {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                
+                // Generate filename with timestamp
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                const companyName = emailData.solutions[0]?.companyName || 'Unknown';
+                const filename = `TechnologyMatch-Solutions-${companyName.replace(/[^a-zA-Z0-9]/g, '')}-${timestamp}.png`;
+                
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                console.log('Solution data downloaded as PNG:', filename);
+            }, 'image/png');
+        }
+        
+        // Initialize
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        
+        // Set initial setup page styling
+        document.body.classList.add('setup-page');
+    </script>
+</body>
+</html>
