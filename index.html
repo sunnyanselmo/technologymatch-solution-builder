@@ -420,12 +420,6 @@
                     Pages go live after your approval<br>
                     Start receiving qualified leads!
                 </div>
-                <button type="button" id="downloadBtn" class="download-btn" onclick="downloadSolutionData()">
-                    Download My Solution Pages
-                </button>
-                <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 10px;">
-                    Email the downloaded file to sonoma@technologymatch.com
-                </p>
             </div>
         </div>
     </div>
@@ -826,19 +820,19 @@
             document.getElementById('currentSolution').textContent = currentSolutionIndex + 1;
             
             // Update completion text
-            const completionTexts = [
+            const texts = [
                 "Let's get started!",
                 "Great progress!",
-                "Halfway there!",
-                "Almost done!",
-                "Final stretch!",
-                "You're crushing it!",
-                "Nearly finished!",
-                "Last one!",
-                "Final solution!",
-                "Complete!"
+                "You're doing great!",
+                "Keep it up!",
+                "Almost there!",
+                "Way to go!",
+                "Excellent work!",
+                "Looking good!",
+                "Nice job!",
+                "You're crushing it!"
             ];
-            document.getElementById('completionText').textContent = completionTexts[Math.min(currentSolutionIndex, completionTexts.length - 1)];
+            document.getElementById('completionText').textContent = texts[Math.min(currentSolutionIndex, texts.length - 1)];
         }
         
         function finishAllSolutions() {
@@ -1101,7 +1095,5 @@
         // Initialize
         window.scrollTo({top: 0, behavior: 'smooth'});
     </script>
-</body>
-</html>
 </body>
 </html>
